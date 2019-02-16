@@ -4,6 +4,7 @@ from watson_developer_cloud import AssistantV2
 
 msg = {"hi": "Hello",
        "severe-1": "I feel like killing myself",
+       "location-1": "I am in Buffalo New York",
        "get_name": "Hello my name is John"}
 
 
@@ -42,13 +43,25 @@ class Assistant:
             if name:
                 self.case.name = name
                 print("User name is {}".format(self.case.name))
+        if not self.case.location:
+            location, confidence = Assistant._get_entity(msg["output"], "sys-location")
+            if location:
+                self.case.location = location
+                print("Location is {}".format(self.case.location))
         return msg
 
     @staticmethod
     def _get_entity(message, entity_name):
+        val = ""
+        confidence = 0.0
+        idx = 1
         for et in message["entities"]:
             if et["entity"] == entity_name:
-                return et["value"], et["confidence"]
+                val += " {}".format(et["value"])
+                confidence += et["confidence"]
+                idx += 1
+        if val:
+            return val.strip(" "), confidence / idx
         return None, None
 
     def _set_entity(self, entity_name, value):
@@ -62,8 +75,8 @@ if __name__ == "__main__":
     assistant = Assistant(iam_apikey, assistant_id)
 
     # test_message = "I feel like killing myself"
-    for val in msg.values():
-        print("Message being sent: {}".format(val))
-        # test_message = msg["get_name"]
-        message = assistant.ask_assistant(val)
-        print(json.dumps(message, indent=2))
+    # for val in msg.values():
+    #     print("Message being sent: {}".format(val))
+    test_message = msg["get_name"]
+    message = assistant.ask_assistant(test_message)
+    print(json.dumps(message, indent=2))

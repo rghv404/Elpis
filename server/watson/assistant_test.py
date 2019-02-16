@@ -7,6 +7,8 @@ from watson_developer_cloud import AssistantV2
 msg = {"hi": "Hello",
        "severe-1": "I feel like killing myself",
        "location-1": "I am in Buffalo",
+       "q_location": "Where am I?",
+       "q_name": "What is my name?",
        "get_name": "Hello my name is John"}
 
 ApiKeys = {"owm": "6cce1ac5218007fcf2eb6a1a7786be79"}
@@ -40,19 +42,31 @@ class Assistant:
         self.session = self.assistant.create_session(assistant_id).get_result()
         self.session_id = self.session["session_id"]
         self.case = Case()
+        self.context = None
         print("Watson assistant session details: {}".format(json.dumps(self.session)))
         return None
 
     def ask_assistant(self, message):
-        msg = self.assistant.message(
+        response = self.assistant.message(
             self.assistant_id,
             self.session_id,
-            input={'text': message},
-            context={
-                'metadata': {
-                    'deployment': 'myDeployment'
+            input={
+                'text': message,
+                'options': {
+                    'return_context': True
                 }
-            }).get_result()
+            },
+            # context={
+            #     'metadata': {
+            #         'deployment': 'myDeployment'
+            #     }
+            # }
+            context=self.context
+        )
+        msg = response.get_result()
+        if not msg["context"]:
+            print("Context: {}".format(self.context))
+            self.context = msg["context"]
         if not self.case.name:
             name, confidence = Assistant._get_entity(msg["output"], "sys-person")
             if name:
@@ -95,5 +109,7 @@ if __name__ == "__main__":
     # for val in msg.values():
     #     print("Message being sent: {}".format(val))
     test_message = msg["location-1"]
-    message = assistant.ask_assistant(test_message)
-    print(json.dumps(message, indent=2))
+    for test_message in [msg["get_name"], msg["q_name"], msg["location-1"], msg["q_location"]]:
+        print("Sending", test_message)
+        message = assistant.ask_assistant(test_message)
+        print(json.dumps(message, indent=2))

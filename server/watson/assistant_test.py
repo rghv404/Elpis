@@ -3,10 +3,8 @@ import json
 from watson_developer_cloud import AssistantV2
 
 if __name__ == "__main__":
-    # url="https://gateway.watsonplatform.net/assistant/api/v2/assistants/0b6f795c-82f8-4315-9998-368560192535/sessions"
     assistant = AssistantV2(version="2019-02-16",
-                            iam_apikey="vStMz9hAxwmSPZm3pcaQYp2uMBSN6nqIFtloWNSaaSaq",
-                            )
+                            iam_apikey="vStMz9hAxwmSPZm3pcaQYp2uMBSN6nqIFtloWNSaaSaq")
 
     assistant_id = "0b6f795c-82f8-4315-9998-368560192535"
     session = assistant.create_session(assistant_id).get_result()

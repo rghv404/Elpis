@@ -1,11 +1,15 @@
 from __future__ import print_function, absolute_import
+import requests as r
 import json
+import math
 from watson_developer_cloud import AssistantV2
 
 msg = {"hi": "Hello",
        "severe-1": "I feel like killing myself",
-       "location-1": "I am in Buffalo New York",
+       "location-1": "I am in Buffalo",
        "get_name": "Hello my name is John"}
+
+ApiKeys = {"owm": "6cce1ac5218007fcf2eb6a1a7786be79"}
 
 
 class Case:
@@ -14,6 +18,17 @@ class Case:
         self.location = location
         self.problem_description = problem_description
         return None
+
+
+def fetch_weather(location):
+    url = "https://api.openweathermap.org/data/2.5/weather?q={0}&appid={1}".format(
+        location, ApiKeys["owm"]
+    )
+    response = r.get(url)
+    data = response.json()
+    w_str = "{}, {}".format(data["weather"][0]["main"], data["weather"][0]["description"])
+    temp = round(float(data["main"]["temp"]) - 273, 2)
+    return w_str, temp
 
 
 class Assistant:
@@ -44,24 +59,26 @@ class Assistant:
                 self.case.name = name
                 print("User name is {}".format(self.case.name))
         if not self.case.location:
-            location, confidence = Assistant._get_entity(msg["output"], "sys-location")
+            location, confidence = Assistant._get_entity(msg["output"], "sys-location", ",")
             if location:
                 self.case.location = location
+                w_str, temp = fetch_weather(self.case.location)
                 print("Location is {}".format(self.case.location))
+                print("{}, Temp {}".format(w_str, temp))
         return msg
 
     @staticmethod
-    def _get_entity(message, entity_name):
-        val = ""
+    def _get_entity(message, entity_name, join_char=" "):
+        val = []
         confidence = 0.0
         idx = 1
         for et in message["entities"]:
             if et["entity"] == entity_name:
-                val += " {}".format(et["value"])
+                val.append(et["value"])
                 confidence += et["confidence"]
                 idx += 1
         if val:
-            return val.strip(" "), confidence / idx
+            return "{}".format(join_char).join(val).strip(" "), confidence / idx
         return None, None
 
     def _set_entity(self, entity_name, value):
@@ -77,6 +94,6 @@ if __name__ == "__main__":
     # test_message = "I feel like killing myself"
     # for val in msg.values():
     #     print("Message being sent: {}".format(val))
-    test_message = msg["get_name"]
+    test_message = msg["location-1"]
     message = assistant.ask_assistant(test_message)
     print(json.dumps(message, indent=2))

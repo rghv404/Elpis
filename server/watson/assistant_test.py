@@ -15,7 +15,7 @@ class Assistant:
         return None
 
     def ask_assistant(self, message):
-        message = self.assistant.message(
+        msg = self.assistant.message(
             self.assistant_id,
             self.session_id,
             input={'text': message},
@@ -24,7 +24,7 @@ class Assistant:
                     'deployment': 'myDeployment'
                 }
             }).get_result()
-        return message
+        return msg
 
 
 if __name__ == "__main__":

@@ -26,11 +26,11 @@ const onStart = () => {
 
     // Log messages from the server
     connection.onmessage = function (e) {
-        checkConversationEnd(e.data);
-        console.log('Server: ' + e.data);
+        const message = checkConversationEnd(e);   
+        console.log('Server: ' + message);
         // Artificial timeout to simulate loading
         setTimeout(() => {
-            addAgentResponseBox(e.data);
+            addAgentResponseBox(message);
             if (agentWritingBox) {
                 chatBox.removeChild(agentWritingBox);
                 agentWritingBox = undefined;
@@ -66,18 +66,29 @@ const sendMessage = () => {
     }, 200);
 };
 
-function checkConversationEnd(response){
-    if(response === "question_finished"){
+function checkConversationEnd(e){
+    let msg = undefined;
+    if(e.data === "question_finished"){
+        ipBox.style.display = "none";
+        agentWritingBox.style.display = "none";
         console.log("Conversation finished - Depression Question Survey Complete.")
-    } else if(response === "helpline"){
-        console.log("Conversation finished - Show Helpline.")        
+        msg = "Based on your case, we are forwarding your request to the concerned authority with high priory. Please "
+        + "click on the link to be redirected to the local agent.";
+    } else if(e.data === "helpline") {
+        ipBox.style.display = "none";
+        agentWritingBox.style.display = "none";
+        console.log("Conversation finished - Helpline.")
+        msg = "Hope you have a good day. Please feel free to use our services again.";
     }
-    else if(response === "EndOfChat"){
-        ipBox.hide();
-        console.log("Conversation finished - Severe Case.")
+    else if(e.data === "EndOfChat") {
+        ipBox.style.display = "none";
+        agentWritingBox.style.display = "none";
+        console.log("Conversation finished - Depression Question Survey Complete.");
+        msg = "Based on your case, we are forwarding your request to the concerned authority with highest priory. Please "
+        + "click on the link to be redirected to the local agent."; 
     }
+    return msg || e.data;
 }
-
 const addAgentResponseBox = (text = Math.random()) => {
     const clone = agentResponseBox.cloneNode(true);
     const msg = clone.children[1].children[1];

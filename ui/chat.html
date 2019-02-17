@@ -30,7 +30,7 @@
           content="Elpis is a chat bot powered by IBM Watson and Neural Network, that uses a structured conversation with a person with suicidal tendencies and try to find the severity of the case and get help to that user accordingly.">
     <meta name="twitter:image" content="images/logo.png">
 </head>
-<body>
+<body onload="onStart()">
 <header id="site-header" class="bg-light">
     <nav class="navbar navbar-expand-lg navbar-light bg-light container-fluid">
         <a class="navbar-brand" href="#" aria-label="Elpis">
@@ -66,7 +66,7 @@
                 <span class="message">Your message!</span>
             </div>
         </div>
-        <div class="row user-response">
+        <div class="row user-response" style="display: none;">
             <div class="col-10 pl-0">
                 <span class="user-name-customer">User</span>
                 <span class="message">Your message!</span>

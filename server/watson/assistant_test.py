@@ -25,6 +25,7 @@ class Case:
     def __init__(self, name="", location="", problem_description=""):
         self.name = name
         self.location = location
+        self.severity_score = 0
         self.problem_description = problem_description
         return None
 
@@ -71,14 +72,19 @@ class Assistant:
             context=self.context
         )
         msg = response.get_result()
+
         if not msg["context"]:
             print("Context: {}".format(self.context))
             self.context = msg["context"]
+
+        # Update name if does not exist
         if not self.case.name:
             name, confidence = Assistant._get_entity(msg["output"], "sys-person")
             if name:
                 self.case.name = name
                 print("User name is {}".format(self.case.name))
+
+        # Update location if does not exist
         if not self.case.location:
             location, confidence = Assistant._get_entity(msg["output"], "sys-location", ",")
             if location:
@@ -86,9 +92,14 @@ class Assistant:
                 w_str, temp = fetch_weather(self.case.location)
                 print("Location is {}".format(self.case.location))
                 print("{}, Temp {}".format(w_str, temp))
+
+        # Print the response returned by the assistant, if it exists
         text_msg = Assistant._get_text_response(msg["output"])
         if text_msg:
             print("Response from Assistant: {}".format(text_msg))
+
+        # Calculate severity score at every interaction
+        self.case.severity_score += Assistant._get_score(msg["output"])
         return msg
 
     def bye(self):
@@ -121,14 +132,14 @@ class Assistant:
 
     @staticmethod
     def _get_score(message):
-        conf = -1.0
-        answer = ""
-        for et in Questionnaire_Score_Map.keys():
-            name, confidence = Assistant._get_entity(message, et)
-            if confidence > conf:
-                conf = confidence
-                answer = name
-        return answer, Questionnaire_Score_Map[answer]
+        sev_score = 0
+        curr_response_intent = message["intents"][0]["intent"]
+
+        # checking if intent belongs to depression severity maps
+        # if yes then calculate the score else move on
+        if curr_response_intent in Questionnaire_Score_Map:
+            sev_score += Questionnaire_Score_Map[curr_response_intent]
+        return sev_score
 
     def _set_entity(self, entity_name, value):
         pass
@@ -141,7 +152,6 @@ if __name__ == "__main__":
     assistant = Assistant(iam_apikey, assistant_id)
 
     test_flow = [
-        # "asbdasbdasbdsd",
         "hey",
         "hey",
         "my name is john",
@@ -151,11 +161,11 @@ if __name__ == "__main__":
         "often",
         "rarely"
     ]
+
     for test_message in test_flow:
         # test_message = msg["hi"]
         print("Sending to Watson: ", test_message)
         message = assistant.ask_assistant(test_message)
-        print(json.dumps(message, indent=2))
-        print()
+    print("Severity score: {}".format(assistant.case.severity_score))
 
     assistant.bye()

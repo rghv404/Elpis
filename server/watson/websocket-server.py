@@ -13,8 +13,11 @@ Questionnaire_Score_Map = {
     "Nearly_Everyday": 3
 }
 
+shown_weather = False
+
 
 async def communicate(websock, path):
+    global shown_weather
     iam_apikey = "zZgd_U8JM-zH7fsNulDgEXlh-wcBzQs1n7zbmX8Zk8CN"
     assistant_id = "38226af1-7add-488c-9774-e523dd61cbb8"
     assistant = Assistant(iam_apikey, assistant_id)
@@ -22,6 +25,15 @@ async def communicate(websock, path):
     while test_message is not None:
         message = assistant.ask_assistant(test_message)
         msg = Assistant._get_text_response(message["output"])
+        if "weather" in assistant.pass_date and not shown_weather:
+            msg = "The weather in {0} is {1}, with temperatures of {2} Celsius. {3}".format(
+                assistant.case.location,
+                assistant.pass_date["weather"]["w_str"],
+                assistant.pass_date["weather"]["temp"],
+                msg
+            )
+            shown_weather = True
+        print("Context at this point: {}".format(assistant.context))
         await websock.send(msg)
         test_message = await websock.recv()
     assistant.bye()

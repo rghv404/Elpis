@@ -35,6 +35,7 @@ class Assistant:
         self.assistant_id = asst_id
         self.session = self.assistant.create_session(self.assistant_id).get_result()
         self.session_id = self.session["session_id"]
+        self.pass_date = {}
         self.case = Case()
         self.context = None
         print("Watson assistant session details: {}".format(json.dumps(self.session)))
@@ -59,8 +60,7 @@ class Assistant:
         )
         msg = response.get_result()
 
-        if not msg["context"]:
-            print("Context: {}".format(self.context))
+        if msg["context"]:
             self.context = msg["context"]
 
         # Update name if does not exist
@@ -76,6 +76,7 @@ class Assistant:
             if location:
                 self.case.location = location
                 w_str, temp = fetch_weather(self.case.location)
+                self.pass_date['weather'] = {'w_str': w_str, 'temp': temp}
                 print("Location is {}".format(self.case.location))
                 print("{}, Temp {}".format(w_str, temp))
 
@@ -87,6 +88,7 @@ class Assistant:
         # Calculate severity score at every interaction
         self.case.severity_score += Assistant._get_score(msg["output"])
         self.write_to_csv()
+        print("Message: {}".format(msg))
         return msg
 
     def write_to_csv(self):
@@ -128,12 +130,15 @@ class Assistant:
     @staticmethod
     def _get_score(message):
         sev_score = 0
-        curr_response_intent = message["intents"][0]["intent"]
+        if "intents" in message and \
+                len(message["intents"]) >= 1 and \
+                "intent" in message["intents"][0]:
+            curr_response_intent = message["intents"][0]["intent"]
 
-        # checking if intent belongs to depression severity maps
-        # if yes then calculate the score else move on
-        if curr_response_intent in Questionnaire_Score_Map:
-            sev_score += Questionnaire_Score_Map[curr_response_intent]
+            # checking if intent belongs to depression severity maps
+            # if yes then calculate the score else move on
+            if curr_response_intent in Questionnaire_Score_Map:
+                sev_score += Questionnaire_Score_Map[curr_response_intent]
         return sev_score
 
     def _set_entity(self, entity_name, value):

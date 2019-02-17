@@ -1,0 +1,76 @@
+#logo{
+    height: 90px;
+}
+#main-background-img {
+    background: url(../images/background.jpg) no-repeat;
+    background-size: auto auto;
+    background-size: cover;
+    margin: -1px 0px 0px 0px;
+    padding: 50px 0px 20px 0px;
+    min-height: 800px;
+    width: 100%;
+}
+.navbar-nav{
+    font-size:1.3rem !important;
+}
+.center{
+    margin-top:auto;
+    margin-bottom:auto;
+    vertical-align:middle;    
+}
+#chat-button {
+    opacity: 0.8;
+    width: 100%;
+    padding: 25px;
+    font-size: 2em;
+    background-color:#880e4f !important;
+    color: white;
+}
+
+#chat-button:hover {
+  transform: scale(1.02);
+  opacity: 0.9;
+  filter: brightness(95%);    
+}
+
+#chat-box{
+    padding: 15px;
+    opacity: 0.8;
+    margin: auto;
+    width: 80%;
+}
+.user-chat-icon {
+    display: inline-block !importan;
+    width: 75px;
+    display: inline-block;
+    height: 75px;
+    border-radius: 50%;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+}
+.user-chat-agent-icon {
+      background-image: url(../images/agent.jpg);
+}
+.user-name{
+    font-weight: bold;
+    width: 100%;
+    vertical-align: middle;
+    display: block !important;
+}
+.user-response{
+    float: right !important;
+    text-align: right;
+}
+.user-name-customer{
+    font-weight: bold;
+    width: 100%;
+    float: right;
+    display: block;
+}
+.message{
+    display: block;
+}
+textarea:focus, input:focus{
+    opacity: 0.8;
+}

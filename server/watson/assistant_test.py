@@ -13,6 +13,13 @@ msg = {"hi": "Hello",
 
 ApiKeys = {"owm": "6cce1ac5218007fcf2eb6a1a7786be79"}
 
+Questionnaire_Score_Map = {
+    "Not_At_All": 0,
+    "Several_Days": 1,
+    "More_Than_Half_The_Days": 2,
+    "Nearly_Everyday": 3
+}
+
 
 class Case:
     def __init__(self, name="", location="", problem_description=""):
@@ -101,8 +108,20 @@ class Assistant:
     @staticmethod
     def _get_text_response(message):
         if message['generic']:
-            return message["generic"][0]["text"]
+            text_msg = [msg["text"] for msg in message["generic"]]
+            return "\n".join(text_msg)
         return None
+
+    @staticmethod
+    def _get_score(message):
+        conf = -1.0
+        answer = ""
+        for et in Questionnaire_Score_Map.keys():
+            name, confidence = Assistant._get_entity(message, et)
+            if confidence > conf:
+                conf = confidence
+                answer = name
+        return answer, Questionnaire_Score_Map[answer]
 
     def _set_entity(self, entity_name, value):
         pass
@@ -114,11 +133,19 @@ if __name__ == "__main__":
 
     assistant = Assistant(iam_apikey, assistant_id)
 
-    # test_message = "I feel like killing myself"
-    # for val in msg.values():
-    #     print("Message being sent: {}".format(val))
-    test_message = msg["hi"]
-    # for test_message in [msg["get_name"], msg["q_name"], msg["location-1"], msg["q_location"]]:
-    print("Sending", test_message)
-    message = assistant.ask_assistant(test_message)
-    print(json.dumps(message, indent=2))
+    test_flow = [
+        "hey",
+        "hey",
+        "my name is john",
+        "I am from buffalo",
+        "I am feeling lonely",
+        "ok",
+        "often",
+        "rarely"
+    ]
+    for test_message in test_flow:
+        # test_message = msg["hi"]
+        print("Sending to Watson: ", test_message)
+        message = assistant.ask_assistant(test_message)
+        # print(json.dumps(message, indent=2))
+        print()

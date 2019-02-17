@@ -66,6 +66,7 @@ const addAgentResponseBox = (text = Math.random()) => {
     if (msg) {
         msg.innerHTML = text.toString();
     }
+    clone.style.display = '';
     chatBox.appendChild(clone);
 };
 

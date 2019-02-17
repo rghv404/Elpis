@@ -54,7 +54,7 @@ const sendMessage = () => {
     // Allow enough time for the WS to open again
     setTimeout(() => {
         if (connection.OPEN) {
-            connection.send(message);
+            connection.send(message.trim());
             addUserResponse(message);
             addAgentTypingBox();
         }

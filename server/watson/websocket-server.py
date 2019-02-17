@@ -18,6 +18,7 @@ shown_weather = False
 
 async def communicate(websock, path):
     global shown_weather
+    shown_weather = False
     iam_apikey = "zZgd_U8JM-zH7fsNulDgEXlh-wcBzQs1n7zbmX8Zk8CN"
     assistant_id = "38226af1-7add-488c-9774-e523dd61cbb8"
     assistant = Assistant(iam_apikey, assistant_id)

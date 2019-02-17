@@ -40,6 +40,7 @@ async def communicate(websock, path):
                 msg = "The weather in {0} is {1}, with temperatures of {2} Celsius. {3}".format(
                     assistant.case.location, w_str, temp, msg
                 )
+            msg += " Am I right?"
             shown_weather = True
         print("Context at this point: {}".format(assistant.context))
         await websock.send(msg)

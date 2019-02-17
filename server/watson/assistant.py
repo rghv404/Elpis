@@ -92,6 +92,8 @@ class Assistant:
         self.case.severity_score += Assistant._get_score(msg["output"])
         self.write_to_csv()
         print("Message: {}".format(msg))
+        if self.is_end_of_chat():
+            print("Approaching end of chat")
         return msg
 
     def write_to_csv(self):
@@ -143,6 +145,13 @@ class Assistant:
             if curr_response_intent in Questionnaire_Score_Map:
                 sev_score += Questionnaire_Score_Map[curr_response_intent]
         return sev_score
+
+    def is_end_of_chat(self):
+        return self.context and "skills" in self.context and \
+               "main skill" in self.context["skills"] and \
+               "user_defined" in self.context["skills"]["main skill"] and \
+               "EndOfChat" in self.context["skills"]["main skill"]["user_defined"] and \
+               self.context["skills"]["main skill"]["user_defined"]["EndOfChat"]
 
     def _set_entity(self, entity_name, value):
         pass

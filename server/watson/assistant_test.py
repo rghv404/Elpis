@@ -79,6 +79,9 @@ class Assistant:
                 w_str, temp = fetch_weather(self.case.location)
                 print("Location is {}".format(self.case.location))
                 print("{}, Temp {}".format(w_str, temp))
+        text_msg = Assistant._get_text_response(msg["output"])
+        if text_msg:
+            print("Response from Assistant: {}".format(text_msg))
         return msg
 
     @staticmethod
@@ -95,6 +98,12 @@ class Assistant:
             return "{}".format(join_char).join(val).strip(" "), confidence / idx
         return None, None
 
+    @staticmethod
+    def _get_text_response(message):
+        if message['generic']:
+            return message["generic"][0]["text"]
+        return None
+
     def _set_entity(self, entity_name, value):
         pass
 
@@ -108,8 +117,8 @@ if __name__ == "__main__":
     # test_message = "I feel like killing myself"
     # for val in msg.values():
     #     print("Message being sent: {}".format(val))
-    test_message = msg["location-1"]
-    for test_message in [msg["get_name"], msg["q_name"], msg["location-1"], msg["q_location"]]:
-        print("Sending", test_message)
-        message = assistant.ask_assistant(test_message)
-        print(json.dumps(message, indent=2))
+    test_message = msg["hi"]
+    # for test_message in [msg["get_name"], msg["q_name"], msg["location-1"], msg["q_location"]]:
+    print("Sending", test_message)
+    message = assistant.ask_assistant(test_message)
+    print(json.dumps(message, indent=2))

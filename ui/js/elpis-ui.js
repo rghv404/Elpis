@@ -12,6 +12,7 @@ const onStart = () => {
     // When the connection is open, send some data to the server
     connection.onopen = function () {
         console.log("Opened websocket");
+        connection.send('hi');
     };
 
     // Log errors

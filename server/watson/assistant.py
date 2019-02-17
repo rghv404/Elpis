@@ -405,7 +405,7 @@ List_Cities = ["Aberdeen",
 
 def fetch_weather(location):
     url = "https://api.openweathermap.org/data/2.5/weather?q={0}&appid={1}".format(
-        location, ApiKeys["owm"]
+        location.split(",")[0], ApiKeys["owm"]
     )
     response = r.get(url)
     data = response.json()
@@ -462,7 +462,7 @@ class Assistant:
         # Update location if does not exist
         if not self.case.location:
             location, confidence = Assistant._get_entity(msg["output"], "sys-location", ",")
-            if not location and any([city.lower() in str(message).lower() for city in List_Cities]):
+            if not location and any([str(message).lower().__contains__(city.lower()) for city in List_Cities]):
                 for city in List_Cities:
                     if city.lower() in str(message).lower():
                         location = city

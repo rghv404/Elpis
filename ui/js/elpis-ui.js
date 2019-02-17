@@ -36,7 +36,7 @@ const onStart = () => {
                 agentWritingBox = undefined;
             }
 
-        }, 2000);
+        }, 100);
     };
 
     connection.onclose = function () {
@@ -63,7 +63,7 @@ const sendMessage = () => {
             addUserResponse(message);
             addAgentTypingBox();
         }
-    }, 200);
+    }, 100);
 };
 
 function checkConversationEnd(e){

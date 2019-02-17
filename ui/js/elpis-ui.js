@@ -26,7 +26,7 @@ const onStart = () => {
 
     // Log messages from the server
     connection.onmessage = function (e) {
-        const message = checkConversationEnd(e);   
+        const   message = checkConversationEnd(e);   
         console.log('Server: ' + message);
         // Artificial timeout to simulate loading
         setTimeout(() => {
@@ -68,23 +68,22 @@ const sendMessage = () => {
 
 function checkConversationEnd(e){
     let msg = undefined;
-    if(e.data === "question_finished"){
+    if(e.data.includes('Thank you for taking the evaluation.')) {
         ipBox.style.display = "none";
         agentWritingBox.style.display = "none";
         console.log("Conversation finished - Depression Question Survey Complete.")
-        msg = "Based on your case, we are forwarding your request to the concerned authority with high priory. Please "
+        msg = "Based on your case, we are forwarding your request to the concerned authority with HIGH priory. Please "
         + "click on the link to be redirected to the local agent.";
-    } else if(e.data === "helpline") {
+    } else if(e.data.includes('If you seek professional help please dial Helpline')) {
         ipBox.style.display = "none";
         agentWritingBox.style.display = "none";
         console.log("Conversation finished - Helpline.")
-        msg = "Hope you have a good day. Please feel free to use our services again.";
     }
     else if(e.data === "EndOfChat") {
         ipBox.style.display = "none";
         agentWritingBox.style.display = "none";
         console.log("Conversation finished - Depression Question Survey Complete.");
-        msg = "Based on your case, we are forwarding your request to the concerned authority with highest priory. Please "
+        msg = "Based on your case, we are forwarding your request to the concerned authority with HIGHEST priory. Please "
         + "click on the link to be redirected to the local agent."; 
     }
     return msg || e.data;

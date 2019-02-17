@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=yes">
+       
+        <title>Elpis Case Details</title>
+        <meta name="description" content="Elpis is a chat bot powered by IBM Watson and Neural Network, that uses a structured conversation with a person with suicidal tendencies and try to find the severity of the case and get help to that user accordingly.">
+        <meta name="keywords" content="Elpis,feel like suicide, want to kill myself, i want to die">
+        <meta name="robots" content="index, follow">    
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.bundle.min.js" integrity="sha384-zDnhMsjVZfS3hiP7oCBRmfjkQC4fzxVxFhBx8Hkz2aZX8gEvA/jsP3eXRCvzTofP" crossorigin="anonymous"></script>
+        
+        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+        <link href="css/style.css" rel="stylesheet">
+        
+        <meta property="og:title" content="Elpis - The Suicide Prevention Chat Bot">
+        <meta property="og:image" content="images/logo.png">
+        <meta property="og:locale" content="en_US">
+        
+        <meta name="twitter:card" content="summary">
+        <meta name="twitter:title" content="Elpis - The Suicide Prevention Chat Agent">
+        <meta name="twitter:description" content="Elpis is a chat bot powered by IBM Watson and Neural Network, that uses a structured conversation with a person with suicidal tendencies and try to find the severity of the case and get help to that user accordingly.">
+        <meta name="twitter:image" content="images/logo.png">
+    </head>
+    <body>
+        <header id="site-header" class="bg-light">
+            <nav class="navbar navbar-expand-lg navbar-light bg-light container-fluid">
+                <a class="navbar-brand" href="#" aria-label="Elpis">
+                    <img src="images/logo.png" id="logo" alt="Elpis - The Suicide Prevention Chat Agent">
+                </a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mainHeaderNav" aria-contorls="mainHeaderNav" aria-expanded="false" aria-label="Toggle Website Navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="mainHeaderNav">
+                    <ul class="navbar-nav mx-auto">
+                        <li class="nav-item mr-4 pr-6 active">
+                            <a class="nav-link" href="#">Get Help!</a>
+                        </li>
+                        <li class="nav-item mr-4 pr-6">
+                            <a class="nav-link" href="#">Resources</a>
+                        </li>
+                        <li class="nav-item mr-4 pr-6">
+                            <a class="nav-link" href="#">About Us</a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </header>
+        <div id="main-background" class="fluid-container">
+            <div class="row">
+                <div class="col-8 user-info">
+                    <div class="details">
+                        <h2>Case Details</h2>
+                        <div class="case-details">
+                            <span>Case Id:</span><span id="user-name">Not Known!</span>
+                        </div>
+                        <div class="case-details">
+                            <span>Name:</span><span id="user-name">Not Known!</span>
+                        </div>
+                        <div class="case-details">
+                            <span>Contact Information:</span><span id="user-contact">Not Known!</span>
+                        </div>
+                        <div class="case-details">
+                            <span>Location:</span><span id="user-name">Not Known!</span>
+                        </div>
+                        <div class="case-details">
+                            <span>Cause:</span><span id="cause">Not Known!</span>
+                        </div>
+                        <div class="case-details">
+                            <span>Troll User Identified:</span><span id="troll-user">Not Known!</span>
+                        </div>
+                        <div class="case-details">
+                            <span>Severity</span><span id="severity">Not Known!</span>    
+                        </div>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <h2>Metrics</h2>
+                    <h3>Severity</h3>
+                     <div class="progress blue">
+                        <span class="progress-left">
+                            <span class="progress-bar"></span>
+                        </span>
+                        <span class="progress-right">
+                            <span class="progress-bar"></span>
+                        </span>
+                        <div class="progress-value">50%</div>
+                    </div>
+                    <h3>PHQ-9 (Patient Health Questionnaire-9)</h3>
+                    <span class="score">Points</span><span id="phq9-points">Not Known!</span>
+                </div>
+            </div>
+        </div>
+        <footer class="site-footer py-4">
+            <div class="container-fluid text-center text-muted mt-1">
+                <p class="mb-0">&copy; Elpis</p>
+                <p class="mb-0">All Rights Reserved</p>
+            </div>
+        </footer>
+    </body>
+</html>

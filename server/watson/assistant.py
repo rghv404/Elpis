@@ -2,9 +2,25 @@ import json
 
 from watson_developer_cloud import AssistantV2
 
-from server.watson.assistant_test import assistant_id, fetch_weather, Questionnaire_Score_Map
 from server.watson.case import Case
 
+Questionnaire_Score_Map = {
+    "Not_At_All": 0,
+    "Several_Days": 1,
+    "More_Than_Half_The_Days": 2,
+    "Nearly_Everyday": 3
+}
+
+
+def fetch_weather(location):
+    url = "https://api.openweathermap.org/data/2.5/weather?q={0}&appid={1}".format(
+        location, ApiKeys["owm"]
+    )
+    response = r.get(url)
+    data = response.json()
+    w_str = "{}, {}".format(data["weather"][0]["main"], data["weather"][0]["description"])
+    temp = round(float(data["main"]["temp"]) - 273, 2)
+    return w_str, temp
 
 class Assistant:
     def __init__(self, apikey, asst_id):
@@ -12,7 +28,7 @@ class Assistant:
                                      iam_apikey=apikey)
 
         self.assistant_id = asst_id
-        self.session = self.assistant.create_session(assistant_id).get_result()
+        self.session = self.assistant.create_session(self.assistant_id).get_result()
         self.session_id = self.session["session_id"]
         self.case = Case()
         self.context = None

@@ -484,7 +484,7 @@ class Assistant:
         self.write_to_csv()
         print("Message: {}".format(msg))
         if self.is_end_of_chat():
-            print("Approaching end of chat")
+            print("Approaching end of chat with final entity: {}".format(self.is_end_of_chat()))
         return msg
 
     def write_to_csv(self):
@@ -537,12 +537,19 @@ class Assistant:
                 sev_score += Questionnaire_Score_Map[curr_response_intent]
         return sev_score
 
-    def is_end_of_chat(self):
+    def _get_ctx_var(self, ctx_var_key="EndOfChat"):
         return self.context and "skills" in self.context and \
                "main skill" in self.context["skills"] and \
                "user_defined" in self.context["skills"]["main skill"] and \
                "EndOfChat" in self.context["skills"]["main skill"]["user_defined"] and \
-               self.context["skills"]["main skill"]["user_defined"]["EndOfChat"]
+               self.context["skills"]["main skill"]["user_defined"][ctx_var_key]
+
+    def is_end_of_chat(self):
+        keys = ["EndOfChat", "question_finished", "helpline"]
+        for k in keys:
+            if self._get_ctx_var(k):
+                return k
+        return None
 
     def _set_entity(self, entity_name, value):
         pass

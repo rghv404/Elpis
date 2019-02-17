@@ -15,7 +15,6 @@ const onStart = () => {
     // Log errors
     connection.onerror = function (error) {
         console.error('WebSocket Error ' + error);
-        alert("Lost connection to server!\nCheck console for more information");
     };
 
     // Log messages from the server
@@ -29,7 +28,6 @@ const onStart = () => {
 
     connection.onclose = function () {
         console.log("Closing websocket");
-        onStart();
     }
 };
 

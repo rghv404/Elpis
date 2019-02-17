@@ -122,3 +122,9 @@ input[type=text]:focus, textarea:focus {
 .card h1{
     text-align: center;
 }
+.details span{
+    margin-right:5px;
+}
+.user-name{
+    display:inline-block !important;
+}

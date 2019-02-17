@@ -22,7 +22,6 @@ const populateCase = () => {
         const userContactSpan = clone.getElementsByClassName('user-contact')[0];
         const userLocationSpan = clone.getElementsByClassName('user-location')[0];
         const causeSpan = clone.getElementsByClassName('cause')[0];
-        const isTroll = clone.getElementsByClassName('troll-user')[0];
         const severitySpan = clone.getElementsByClassName('severity')[0];
         const pointsSpan = clone.getElementsByClassName('phq9-points')[0];
         caseIdSpan.innerText = first.id[0];
@@ -30,6 +29,7 @@ const populateCase = () => {
         userLocationSpan.innerText = first.location[0];
         severitySpan.innerText = first.severity_score[0];
         pointsSpan.innerText = first.severity_score[0];
+        causeSpan.innerText = first.user_intent[0];
         userContactSpan.innerText = first.phone[0] || "Not known";
         clone.style.display = "";
         mainSection.appendChild(clone);

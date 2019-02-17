@@ -8,5 +8,6 @@ class Case:
         self.location = location
         self.phone = phone
         self.severity_score = 0
+        self.user_intent = "";
         self.problem_description = problem_description
         return None

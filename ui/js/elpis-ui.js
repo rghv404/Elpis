@@ -68,22 +68,25 @@ const sendMessage = () => {
 
 function checkConversationEnd(e){
     let msg = undefined;
-    if(e.data.includes('Thank you for taking the evaluation.')) {
+//    if(e.data.includes('Thank you for taking the evaluation.')) {
+    if(e.data === "question_finished") {
         ipBox.style.display = "none";
         agentWritingBox.style.display = "none";
         console.log("Conversation finished - Depression Question Survey Complete.")
         msg = "Based on your case, we are forwarding your request to the concerned authority with HIGH priory. Please "
         + "click on the link to be redirected to the local agent.";
-    } else if(e.data.includes('If you seek professional help please dial Helpline')) {
+//    } else if(e.data.includes('If you seek professional help please dial Helpline')) {
+    } else if(e.data === "helpline") {
         ipBox.style.display = "none";
         agentWritingBox.style.display = "none";
         console.log("Conversation finished - Helpline.")
+         msg = "Please feel free to get in touch with us again!";
     }
     else if(e.data === "EndOfChat") {
         ipBox.style.display = "none";
         agentWritingBox.style.display = "none";
         console.log("Conversation finished - Depression Question Survey Complete.");
-        msg = "Based on your case, we are forwarding your request to the concerned authority with HIGHEST priory. Please "
+        msg = "Based on your case, we are forwarding your request to the concerned authority with HIGHEST priority. Please "
         + "click on the link to be redirected to the local agent."; 
     }
     return msg || e.data;

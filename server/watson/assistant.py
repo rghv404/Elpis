@@ -481,6 +481,12 @@ class Assistant:
                 self.case.phone = phone
                 print("Phone nuber is: {}".format(self.case.phone))
 
+        if not self.case.user_intent:
+            user_intent = self._get_ctx_var("user_intention")
+            if user_intent:
+                self.case.user_intent = user_intent;
+                print("User intent is: {}".format(self.case.user_intent))
+
         # Print the response returned by the assistant, if it exists
         text_msg = Assistant._get_text_response(msg["output"])
         if text_msg:

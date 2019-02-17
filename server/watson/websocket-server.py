@@ -1,7 +1,6 @@
 from __future__ import print_function, absolute_import
 import asyncio
 import websockets
-import requests as r
 
 from assistant import Assistant
 
@@ -15,30 +14,10 @@ Questionnaire_Score_Map = {
 }
 
 
-
-
 async def communicate(websock, path):
     iam_apikey = "zZgd_U8JM-zH7fsNulDgEXlh-wcBzQs1n7zbmX8Zk8CN"
     assistant_id = "38226af1-7add-488c-9774-e523dd61cbb8"
     assistant = Assistant(iam_apikey, assistant_id)
-
-    # test_flow = [
-    #     "hey",
-    #     "hey",
-    #     "my name is john",
-    #     "I am from buffalo",
-    #     "I am feeling lonely",
-    #     "ok",
-    #     "often",
-    #     "rarely"
-    # ]
-    #
-    # for test_message in test_flow:
-    #     # test_message = msg["hi"]
-    #     print("Sending to Watson: ", test_message)
-    # print("Message from Assistant: {}".format(message))
-    # print("Severity score: {}".format(assistant.case.severity_score))
-
     test_message = await websock.recv()
     while test_message is not None:
         message = assistant.ask_assistant(test_message)
@@ -47,6 +26,7 @@ async def communicate(websock, path):
         test_message = await websock.recv()
     assistant.bye()
     return True
+
 
 if __name__ == "__main__":
     start_server = websockets.serve(communicate, "localhost", 8000)

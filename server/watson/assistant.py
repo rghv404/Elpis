@@ -1,8 +1,11 @@
 import json
+import requests as r
 
 from watson_developer_cloud import AssistantV2
 
 from server.watson.case import Case
+
+ApiKeys = {"owm": "6cce1ac5218007fcf2eb6a1a7786be79"}
 
 Questionnaire_Score_Map = {
     "Not_At_All": 0,
@@ -21,6 +24,7 @@ def fetch_weather(location):
     w_str = "{}, {}".format(data["weather"][0]["main"], data["weather"][0]["description"])
     temp = round(float(data["main"]["temp"]) - 273, 2)
     return w_str, temp
+
 
 class Assistant:
     def __init__(self, apikey, asst_id):

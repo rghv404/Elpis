@@ -474,6 +474,13 @@ class Assistant:
                     print("Location is {}".format(self.case.location))
                     print("{}, Temp {}".format(w_str, temp))
 
+        # Update phone number if exists
+        if not self.case.phone:
+            phone = self._get_ctx_var("phone")
+            if phone:
+                self.case.phone = phone
+                print("Phone nuber is: {}".format(self.case.phone))
+
         # Print the response returned by the assistant, if it exists
         text_msg = Assistant._get_text_response(msg["output"])
         if text_msg:
@@ -541,7 +548,7 @@ class Assistant:
         return self.context and "skills" in self.context and \
                "main skill" in self.context["skills"] and \
                "user_defined" in self.context["skills"]["main skill"] and \
-               "EndOfChat" in self.context["skills"]["main skill"]["user_defined"] and \
+               ctx_var_key in self.context["skills"]["main skill"]["user_defined"] and \
                self.context["skills"]["main skill"]["user_defined"][ctx_var_key]
 
     def is_end_of_chat(self):

@@ -91,6 +91,13 @@ class Assistant:
             print("Response from Assistant: {}".format(text_msg))
         return msg
 
+    def bye(self):
+        print("Closing assistant session")
+        return self.assistant.delete_session(
+            assistant_id=self.assistant_id,
+            session_id=self.session_id
+        )
+
     @staticmethod
     def _get_entity(message, entity_name, join_char=" "):
         val = []
@@ -134,6 +141,7 @@ if __name__ == "__main__":
     assistant = Assistant(iam_apikey, assistant_id)
 
     test_flow = [
+        # "asbdasbdasbdsd",
         "hey",
         "hey",
         "my name is john",
@@ -147,5 +155,7 @@ if __name__ == "__main__":
         # test_message = msg["hi"]
         print("Sending to Watson: ", test_message)
         message = assistant.ask_assistant(test_message)
-        # print(json.dumps(message, indent=2))
+        print(json.dumps(message, indent=2))
         print()
+
+    assistant.bye()

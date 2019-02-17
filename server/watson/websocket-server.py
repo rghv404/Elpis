@@ -26,12 +26,19 @@ async def communicate(websock, path):
         message = assistant.ask_assistant(test_message)
         msg = Assistant._get_text_response(message["output"])
         if "weather" in assistant.pass_date and not shown_weather:
-            msg = "The weather in {0} is {1}, with temperatures of {2} Celsius. {3}".format(
-                assistant.case.location,
-                assistant.pass_date["weather"]["w_str"],
-                assistant.pass_date["weather"]["temp"],
-                msg
-            )
+            w_str, temp = assistant.pass_date["weather"]["w_str"], assistant.pass_date["weather"]["temp"]
+            if str(w_str).lower().__contains__("snow"):
+                msg = "The weather in {0} appears to be quite cold, with temperatures of {2} Celsius. {3}".format(
+                    assistant.case.location, w_str, temp, msg
+                )
+            elif str(w_str).lower().__contains__("rain"):
+                msg = "The weather in {0} appears to be quite rainy, with temperatures of {2} Celsius. {3}".format(
+                    assistant.case.location, w_str, temp, msg
+                )
+            else:
+                msg = "The weather in {0} is {1}, with temperatures of {2} Celsius. {3}".format(
+                    assistant.case.location, w_str, temp, msg
+                )
             shown_weather = True
         print("Context at this point: {}".format(assistant.context))
         await websock.send(msg)

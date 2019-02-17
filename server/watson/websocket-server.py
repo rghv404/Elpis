@@ -43,9 +43,10 @@ async def communicate(websock, path):
             msg += " Am I right?"
             shown_weather = True
         print("Context at this point: {}".format(assistant.context))
-        if assistant.is_end_of_chat() is not None:
-            msg = assistant.is_end_of_chat()
         await websock.send(msg)
+        if assistant.is_end_of_chat() is not None:
+            flag = assistant.is_end_of_chat()
+            await websock.send(flag)
         test_message = await websock.recv()
     assistant.bye()
     return True

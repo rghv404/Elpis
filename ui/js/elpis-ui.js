@@ -3,7 +3,7 @@ const messageBox = document.getElementById('message-box');
 const agentResponseBox = document.getElementsByClassName("row agent-response")[0];
 const userResponseBox = document.getElementsByClassName("row user-response")[0];
 const agentWritingMessage = document.getElementById("agent-writing-response");
-
+const ipBox = document.getElementById("chat-input-box");
 let connection;
 let agentWritingBox;
 
@@ -26,6 +26,7 @@ const onStart = () => {
 
     // Log messages from the server
     connection.onmessage = function (e) {
+        checkConversationEnd(e.data);
         console.log('Server: ' + e.data);
         // Artificial timeout to simulate loading
         setTimeout(() => {
@@ -72,6 +73,7 @@ function checkConversationEnd(response){
         console.log("Conversation finished - Show Helpline.")        
     }
     else if(response === "EndOfChat"){
+        ipBox.hide();
         console.log("Conversation finished - Severe Case.")
     }
 }

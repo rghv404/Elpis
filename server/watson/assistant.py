@@ -22,9 +22,11 @@ def fetch_weather(location):
     )
     response = r.get(url)
     data = response.json()
-    w_str = "{}, {}".format(data["weather"][0]["main"], data["weather"][0]["description"])
-    temp = round(float(data["main"]["temp"]) - 273, 2)
-    return w_str, temp
+    if "weather" in data:
+        w_str = "{}, {}".format(data["weather"][0]["main"], data["weather"][0]["description"])
+        temp = round(float(data["main"]["temp"]) - 273, 2)
+        return w_str, temp
+    return None, None
 
 
 class Assistant:
@@ -76,9 +78,10 @@ class Assistant:
             if location:
                 self.case.location = location
                 w_str, temp = fetch_weather(self.case.location)
-                self.pass_date['weather'] = {'w_str': w_str, 'temp': temp}
-                print("Location is {}".format(self.case.location))
-                print("{}, Temp {}".format(w_str, temp))
+                if w_str and temp:
+                    self.pass_date['weather'] = {'w_str': w_str, 'temp': temp}
+                    print("Location is {}".format(self.case.location))
+                    print("{}, Temp {}".format(w_str, temp))
 
         # Print the response returned by the assistant, if it exists
         text_msg = Assistant._get_text_response(msg["output"])

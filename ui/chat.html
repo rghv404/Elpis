@@ -14,7 +14,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.bundle.min.js"
             integrity="sha384-zDnhMsjVZfS3hiP7oCBRmfjkQC4fzxVxFhBx8Hkz2aZX8gEvA/jsP3eXRCvzTofP"
             crossorigin="anonymous"></script>
-
+  
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
@@ -58,10 +58,10 @@
 <div id="main-background-img" class="fluid-container">
     <div class="card" id="chat-box">
         <div class="row agent-response">
-            <div class="col-2 pr-0 mr-0">
+            <div class="col-2 col-lg-1 pr-0 mr-0">
                 <span class="user-chat-icon user-chat-agent-icon"></span>
             </div>
-            <div class="col-10 pl-0">
+            <div class="col-10 col-lg-11 pl-0">
                 <span class="user-name">Agent</span>
                 <span class="message">Your message!</span>
             </div>
@@ -78,7 +78,7 @@
     </div>
     <div class="card mt-4" id="chat-input-box">
         <div class="row">
-            <input type="text" id="message-box" class="col-10 mx-4" placeholder="Write your message Here!" onkeypress="onEnterPress()"/>
+            <input type="text" id="message-box" class="col-10 mx-4" placeholder="Write your message here!" onkeypress="onEnterPress()"/>
             <span class="col-1 fa text-success fa-reply" aria-hidden="true" onclick="sendMessage()"></span>
         </div>
     </div>

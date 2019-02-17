@@ -34,10 +34,19 @@
 }
 
 #chat-box{
+    overflow-y: scroll;
     padding: 15px;
     opacity: 0.8;
     margin: auto;
     width: 80%;
+    
+}
+#chat-input-box{
+    padding: 15px;
+    opacity: 0.8;
+    margin: auto;
+    width: 80%;
+    
 }
 .user-chat-icon {
     display: inline-block !important;
@@ -73,4 +82,8 @@
 }
 textarea:focus, input:focus{
     opacity: 0.8;
+}
+.fa{
+    vertical-align: middle;
+    line-height:inherit!important;
 }

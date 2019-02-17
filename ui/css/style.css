@@ -116,6 +116,9 @@ input[type=text]:focus, textarea:focus {
     vertical-align: middle;
     line-height:inherit!important;
 }
+.fa:hover{
+    cursor: pointer;
+}
 .card h1{
     text-align: center;
 }

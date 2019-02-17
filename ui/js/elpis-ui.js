@@ -7,6 +7,10 @@ const agentWritingMessage = document.getElementById("agent-writing-response");
 let connection;
 let agentWritingBox;
 
+window.onbeforeunload = function(){ 
+  return 'Are you sure you want to leave?';
+};
+
 const onStart = () => {
     connection = new WebSocket('ws://localhost:8000');
     // When the connection is open, send some data to the server
@@ -60,6 +64,17 @@ const sendMessage = () => {
         }
     }, 200);
 };
+
+function checkConversationEnd(response){
+    if(response === "question_finished"){
+        console.log("Conversation finished - Depression Question Survey Complete.")
+    } else if(response === "helpline"){
+        console.log("Conversation finished - Show Helpline.")        
+    }
+    else if(response === "EndOfChat"){
+        console.log("Conversation finished - Severe Case.")
+    }
+}
 
 const addAgentResponseBox = (text = Math.random()) => {
     const clone = agentResponseBox.cloneNode(true);

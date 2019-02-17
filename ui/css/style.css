@@ -35,8 +35,8 @@
 
 #chat-box{
     overflow-y: scroll;
-    padding: 15px;
-    opacity: 0.8;
+    padding: 25px;
+    opacity: 0.9;
     margin: auto;
     width: 80%;
     
@@ -61,15 +61,30 @@
 .user-chat-agent-icon {
       background-image: url(../images/agent.jpg);
 }
+.user-chat-responder-icon {
+      background-image: url(../images/user.png);    
+}
 .user-name{
     font-weight: bold;
     width: 100%;
     vertical-align: middle;
     display: block !important;
 }
+.agent-response{
+    margin-bottom: 20px;
+    margin-top: 20px;
+    padding: 10px;
+    border-radius: 30px;
+    background-color: aliceblue;    
+}
 .user-response{
+    border-radius: 30px;
     float: right !important;
     text-align: right;
+    background-color: aliceblue;
+}
+.user-response .message{
+    float: right;
 }
 .user-name-customer{
     font-weight: bold;
@@ -81,9 +96,15 @@
     display: block;
 }
 textarea:focus, input:focus{
-    opacity: 0.8;
+    outline: none;
+    border-color: inherit;
+    -webkit-box-shadow: none;
+    box-shadow: none;
 }
 .fa{
     vertical-align: middle;
     line-height:inherit!important;
+}
+.card h1{
+    text-align: center;
 }

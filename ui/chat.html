@@ -4,7 +4,6 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=yes">
-
     <title>Elpis Chat</title>
     <meta name="description"
           content="Elpis is a chat bot powered by IBM Watson and Neural Network, that uses a structured conversation with a person with suicidal tendencies and try to find the severity of the case and get help to that user accordingly.">
@@ -57,6 +56,7 @@
 </header>
 <div id="main-background-img" class="fluid-container">
     <div class="card" id="chat-box">
+        <h1 class="h5">You are chatting with an Agent now!</h1>
         <div class="row agent-response">
             <div class="col-2 col-lg-1 pr-0 mr-0">
                 <span class="user-chat-icon user-chat-agent-icon"></span>
@@ -72,8 +72,11 @@
                 <span class="message">Your message!</span>
             </div>
             <div class="col-2 pr-0 mr-0">
-                <span class="user-chat-icon user-chat-agent-icon"></span>
+                <span class="user-chat-icon user-chat-responder-icon"></span>
             </div>
+        </div>
+        <div id="agent-writing-response" style="display: none;">
+            <span>Agent is typing ...</span>
         </div>
     </div>
     <div class="card mt-4" id="chat-input-box">

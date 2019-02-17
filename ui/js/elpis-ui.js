@@ -2,8 +2,10 @@ const chatBox = document.getElementById("chat-box");
 const messageBox = document.getElementById('message-box');
 const agentResponseBox = document.getElementsByClassName("row agent-response")[0];
 const userResponseBox = document.getElementsByClassName("row user-response")[0];
+const agentWritingMessage = document.getElementById("agent-writing-response");
 
 let connection;
+let agentWritingBox;
 
 const onStart = () => {
     connection = new WebSocket('ws://localhost:8000');
@@ -22,8 +24,13 @@ const onStart = () => {
         console.log('Server: ' + e.data);
         // Artificial timeout to simulate loading
         setTimeout(() => {
-            addAgentResponseBox(e.data)
-        }, 400);
+            addAgentResponseBox(e.data);
+            if (agentWritingBox) {
+                chatBox.removeChild(agentWritingBox);
+                agentWritingBox = undefined;
+            }
+
+        }, 2000);
     };
 
     connection.onclose = function () {
@@ -48,6 +55,7 @@ const sendMessage = () => {
         if (connection.OPEN) {
             connection.send(message);
             addUserResponse(message);
+            addAgentTypingBox();
         }
     }, 200);
 };
@@ -69,4 +77,11 @@ const addUserResponse = (text = Math.random()) => {
     }
     clone.style.display = '';
     chatBox.appendChild(clone);
+};
+
+const addAgentTypingBox = () => {
+    const clone = agentWritingMessage.cloneNode(true);
+    clone.style.display = "";
+    chatBox.appendChild(clone);
+    agentWritingBox = clone;
 };

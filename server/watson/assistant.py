@@ -1,3 +1,4 @@
+import csv
 import json
 import requests as r
 
@@ -85,7 +86,16 @@ class Assistant:
 
         # Calculate severity score at every interaction
         self.case.severity_score += Assistant._get_score(msg["output"])
+        self.write_to_csv()
         return msg
+
+    def write_to_csv(self):
+        filename = "casefiles/{}.csv".format(self.case.id)
+        with open(filename, "w+") as f:
+            writer = csv.writer(f)
+            writer.writerow(self.case.__dict__.keys())
+            writer.writerow(self.case.__dict__.values())
+        return
 
     def bye(self):
         print("Closing assistant session")
